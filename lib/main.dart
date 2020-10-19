@@ -19,8 +19,10 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Scaffold(
-        appBar: AppBar(
 
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text('FLutter Web!!'),
         ),
         body: flu(),
       ),
@@ -86,55 +88,67 @@ class _fluState extends State<flu> with SingleTickerProviderStateMixin {
 
 
       ),
-      Container(
-        margin: EdgeInsets.all(10.00),
-        child: Column(
-          children: [
-            RaisedButton(
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          margin: EdgeInsets.all(10.00),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: RaisedButton(
 
-              //padding: EdgeInsets.all(100.00),
-              child: TextField(
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.text_fields),
-                  labelText: 'Enter Your Name',
+                  //padding: EdgeInsets.all(100.00),
+                  child: TextField(
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.text_fields),
+                      labelText: 'Enter Your Name',
+                    ),
+                  ),
+
+                  onPressed: this._controller.isCompleted ? null : () =>
+                      _controller.forward(),
                 ),
               ),
-
-              onPressed: this._controller.isCompleted ? null : () =>
-                  _controller.forward(),
-            ),
-            RaisedButton(
-              //padding: EdgeInsets.all(100.00),
-              child: TextField(
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.keyboard),
-                  labelText: 'Enter Password',
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: RaisedButton(
+                  //padding: EdgeInsets.all(100.00),
+                  child: TextField(
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.keyboard),
+                      labelText: 'Enter Password',
+                    ),
+                  ),
+                  onPressed: this._controller.isDismissed ? null : () =>
+                      _controller.reverse(),
                 ),
               ),
-              onPressed: this._controller.isDismissed ? null : () =>
-                  _controller.reverse(),
-            ),
-            RaisedButton(
-              child: Text(
-                  'Sign In'
-              ),
-              onPressed: () {
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RaisedButton(
+                  child: Text(
+                      'Sign In'
+                  ),
+                  onPressed: () {
 
-                this._controller.addStatusListener((status) {
-                  if (status == AnimationStatus.completed) {
-                    this._controller.reverse();
-                    showWelcomeScreen();
-                  }
-                  else if (status == AnimationStatus.dismissed) {
+                    this._controller.addStatusListener((status) {
+                      if (status == AnimationStatus.completed) {
+                        this._controller.reverse();
+                        showWelcomeScreen();
+                      }
+                      else if (status == AnimationStatus.dismissed) {
+                        this._controller.forward();
+                      }
+                    });
                     this._controller.forward();
-                  }
-                });
-                this._controller.forward();
-              },
-            ),
-          ],
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       )
 
@@ -146,10 +160,14 @@ class _fluState extends State<flu> with SingleTickerProviderStateMixin {
 class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-       child: Text('Signed in Suceesfully',style: Theme.of(context).textTheme.headline2),
-      ),
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+           child: Container(
+              child: Text('Signed in Suceesfully', style: Theme.of(context).textTheme.headline2, textAlign: TextAlign.center,),
+        ),
+        ),
+      )
     );
   }
 }
